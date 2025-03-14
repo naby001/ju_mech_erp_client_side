@@ -21,7 +21,7 @@ import {
   Checkbox,
 } from "@mui/material";
 import { Add, Delete } from "@mui/icons-material";
-import FileUploadField from "../ui/file-upload-field";
+import FileUploadField from "../pages/file-upload-field";
 
 // Props: TabPanel expects children (ReactNode), index (number), and value (number)
 function TabPanel({ children, value, index, ...other }) {

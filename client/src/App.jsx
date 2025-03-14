@@ -1,15 +1,20 @@
 import { useState } from 'react'
-import StudentPortfolio from './student-portfolio'
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom';
+import StudentPortfolio from './pages/student_form';
+import AuthPage from './pages/AuthPage';
 
 
 function App() {
-  const [count, setCount] = useState(0)
+ 
 
   return (
-    <>
-  
-        <StudentPortfolio />
-    </>
+    <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<AuthPage/>}/>
+      <Route path="/updateform" element={<StudentPortfolio/>}/>
+      </Routes>
+     
+  </BrowserRouter>
   )
 }
 
