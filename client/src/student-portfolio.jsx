@@ -116,8 +116,8 @@ export default function StudentPortfolio() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static" >
-        <Toolbar>
+      <AppBar position="fixed">
+        <Toolbar sx={{ minHeight: "20px" }}> {/* Reduced height */}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Student Portfolio
           </Typography>
@@ -127,7 +127,7 @@ export default function StudentPortfolio() {
       </AppBar>
       <Container 
         maxWidth="100%" 
-        sx={{ marginTop: "16px" }}
+        sx={{ marginTop: "120px" }} // Adjust for reduced navbar height
       >
         <Paper elevation={3} className="mb-8">
           <Typography variant="h4" component="h1" gutterBottom align="center" className="mb-4">
