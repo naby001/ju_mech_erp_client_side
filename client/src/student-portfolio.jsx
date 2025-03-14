@@ -21,6 +21,11 @@ import CoCurricularForm from "./forms/co-curricular-form";
 import MiscellaneousForms from "./forms/miscellaneous-forms";
 import ProgressionForm from "./forms/progression-form";
 import { KeyboardArrowLeft, KeyboardArrowRight, Save } from "@mui/icons-material";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+
+
 
 // Create a theme
 const theme = createTheme({
@@ -111,13 +116,30 @@ export default function StudentPortfolio() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container maxWidth="lg">
+      <AppBar position="static" >
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Student Portfolio
+          </Typography>
+          <Button color="inherit">Sign In</Button>
+          <Button color="inherit">Sign Up</Button>
+        </Toolbar>
+      </AppBar>
+      <Container 
+        maxWidth="100%" 
+        sx={{ marginTop: "16px" }}
+      >
         <Paper elevation={3} className="mb-8">
           <Typography variant="h4" component="h1" gutterBottom align="center" className="mb-4">
             Student Portfolio Information System
           </Typography>
           
-          <Stepper activeStep={activeStep} alternativeLabel={!isMobile} orientation={isMobile ? "vertical" : "horizontal"} className="mb-8">
+          <Stepper 
+            activeStep={activeStep} 
+            alternativeLabel={!isMobile} 
+            orientation={isMobile ? "vertical" : "horizontal"} 
+            className="mb-8"
+          >
             {steps.map((label) => (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
