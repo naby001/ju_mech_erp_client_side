@@ -17,6 +17,9 @@ import PersonalInfoForm from "./forms/personal-info-form";
 import EnrollmentDetailsForm from "./forms/enrollment-details-forms";
 import AcademicBackgroundForm from "./forms/academic-background-form";
 import AcademicInfoForm from "./forms/academic-info-form";
+import CoCurricularForm from "./forms/co-curricular-form";
+import MiscellaneousForms from "./forms/miscellaneous-forms";
+import ProgressionForm from "./forms/progression-form";
 import { KeyboardArrowLeft, KeyboardArrowRight, Save } from "@mui/icons-material";
 
 // Create a theme
@@ -50,10 +53,13 @@ const theme = createTheme({
 });
 
 const steps = [
-  'Personal Information',
-  'Enrollment Details',
-  'Academic Background',
-  'Academic Information'
+  "Personal Information",
+  "Enrollment Details",
+  "Academic Background",
+  "Academic Information",
+  "Co-Curricular Activities",
+  "Miscellaneous Information",
+  "Progression/Placement/Examinations",
 ];
 
 export default function StudentPortfolio() {
@@ -92,8 +98,14 @@ export default function StudentPortfolio() {
         return <AcademicBackgroundForm onChange={handleFormChange} />;
       case 3:
         return <AcademicInfoForm onChange={handleFormChange} />;
+      case 4:
+        return <CoCurricularForm onChange={handleFormChange} />;
+      case 5:
+        return <MiscellaneousForms onChange={handleFormChange} />;
+      case 6:
+        return <ProgressionForm onChange={handleFormChange} />;
       default:
-        return 'Unknown step';
+        return "Unknown step";
     }
   };
 
