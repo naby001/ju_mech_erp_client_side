@@ -272,7 +272,7 @@ export default function ProgressionForm({ onChange }) {
         {placement.isPlaced && (
           <>
             {placement.offers.map((offer, index) => (
-              <Paper key={index} className="p-4 mb-4">
+              <Paper key={index} className="p-4 mb-4" sx={{mb:4}}>
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={6}>
                     <TextField
@@ -391,7 +391,7 @@ export default function ProgressionForm({ onChange }) {
         </Typography>
 
         {exams.map((exam, index) => (
-          <Paper key={index} className="p-4 mb-4">
+          <Paper key={index} className="p-4 mb-4" sx={{mb:4}}>
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>
                 <TextField

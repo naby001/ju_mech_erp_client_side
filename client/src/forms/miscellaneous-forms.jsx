@@ -1,211 +1,118 @@
-"use client"
+import React, { useState } from "react";
+import { Box, Button, Container, TextField, Typography, useMediaQuery } from "@mui/material";
+import { motion } from "framer-motion";
 
-import { useState } from "react"
-import {
-  TextField,
-  Grid,
-  Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  FormControlLabel,
-  Checkbox,
-  Divider,
-  Box,
-} from "@mui/material"
+export default function MiscellaneousForm() {
+  const isMobile = useMediaQuery("(max-width:900px)");
 
-// Props: onChange is a function that receives form data
-export default function MiscellaneousForms({ onChange }) {
   const [formData, setFormData] = useState({
-    rollNumber: "",
-    section: "",
-    programme: "",
-    isLateralEntry: false,
-    admissionYear: "",
-    currentSemester: "",
-    currentYear: "",
-    expectedGraduationYear: "",
-    registrationNumber: "",
-    registrationYear: "",
-    mentorName: "",
-    hasScholarship: false,
-    scholarshipDetails: "",
-  })
+    lor: null,
+    keyLearnings: "",
+    sop: "",
+    vision: "",
+  });
 
-  const handleChange = (event) => {
-    const { name, value, checked, type } = event.target
-    const newValue = type === "checkbox" ? checked : value
+  const handleFileUpload = (event) => {
+    setFormData({ ...formData, lor: event.target.files[0] });
+  };
 
-    setFormData({
-      ...formData,
-      [name]: newValue,
-    })
-
-    onChange({
-      enrollmentDetails: {
-        ...formData,
-        [name]: newValue,
-      },
-    })
-  }
+  const handleChange = (field, value) => {
+    setFormData({ ...formData, [field]: value });
+  };
 
   return (
-    <Box>
-      <Typography variant="h5" gutterBottom>
-        Enrollment Details
-      </Typography>
-      <Divider className="mb-4" />
+    <Container
+      component={motion.div}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        color: "#fff",
+        borderRadius: "12px",
+        padding: isMobile ? "20px" : "40px",
+      }}
+    >
+      {/* LOR Upload */}
+      <Box
+        sx={{
+          width: "100%",
+          mb: 3,
+          display: "flex",
+          flexDirection: isMobile ? "column" : "row",
+          alignItems: isMobile ? "flex-start" : "center",
+          justifyContent: isMobile ? "flex-start" : "space-between",
+          gap: isMobile ? "10px" : "0",
+        }}
+      >
+        <Typography variant="h6" sx={{ mb: 1, color: "black" }}>
+          Letter of Recommendation (LOR)
+        </Typography>
+        <Button
+          variant="contained"
+          component="label"
+          sx={{
+            borderRadius: "10px",
+            background: "#b70924",
+            width: isMobile ? "100%" : "40%",
+          }}
+        >
+          Upload LOR
+          <input type="file" hidden onChange={handleFileUpload} />
+        </Button>
+      </Box>
 
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
-          <TextField
-            required
-            fullWidth
-            label="Roll Number"
-            name="rollNumber"
-            value={formData.rollNumber}
-            onChange={handleChange}
-          />
-        </Grid>
+      {/* Key Learnings */}
+      <TextField
+        label="Key Learnings / Highlights of the Programme"
+        variant="outlined"
+        multiline
+        rows={isMobile ? 4 : 3}
+        fullWidth
+        sx={{ mb: 3, borderRadius: "10px", background: "rgba(255, 255, 255, 0.1)" }}
+        value={formData.keyLearnings}
+        onChange={(e) => handleChange("keyLearnings", e.target.value)}
+      />
 
-        <Grid item xs={12} md={6}>
-          <TextField
-            required
-            fullWidth
-            label="Section"
-            name="section"
-            value={formData.section}
-            onChange={handleChange}
-          />
-        </Grid>
+      {/* SOP */}
+      <TextField
+        label="Statement of Purpose (SOP)"
+        variant="outlined"
+        multiline
+        rows={isMobile ? 4 : 3}
+        fullWidth
+        sx={{ mb: 3, borderRadius: "10px", background: "rgba(255, 255, 255, 0.1)" }}
+        value={formData.sop}
+        onChange={(e) => handleChange("sop", e.target.value)}
+      />
 
-        <Grid item xs={12} md={6}>
-          <FormControl fullWidth required>
-            <InputLabel>Programme</InputLabel>
-            <Select name="programme" value={formData.programme} onChange={handleChange} label="Programme">
-              <MenuItem value="btech">B.Tech</MenuItem>
-              <MenuItem value="mtech">M.Tech</MenuItem>
-              <MenuItem value="phd">Ph.D</MenuItem>
-              <MenuItem value="bba">BBA</MenuItem>
-              <MenuItem value="mba">MBA</MenuItem>
-              <MenuItem value="bca">BCA</MenuItem>
-              <MenuItem value="mca">MCA</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
+      {/* Vision & Long-term Aspirations */}
+      <TextField
+        label="Vision & Long-Term Aspirations"
+        variant="outlined"
+        multiline
+        rows={isMobile ? 4 : 3}
+        fullWidth
+        sx={{ mb: 3, borderRadius: "10px", background: "rgba(255, 255, 255, 0.1)" }}
+        value={formData.vision}
+        onChange={(e) => handleChange("vision", e.target.value)}
+      />
 
-        <Grid item xs={12} md={6}>
-          <FormControlLabel
-            control={<Checkbox name="isLateralEntry" checked={formData.isLateralEntry} onChange={handleChange} />}
-            label="Lateral Entry"
-          />
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <TextField
-            required
-            fullWidth
-            label="Year of Admission"
-            name="admissionYear"
-            type="number"
-            value={formData.admissionYear}
-            onChange={handleChange}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <TextField
-            required
-            fullWidth
-            label="Current Semester"
-            name="currentSemester"
-            type="number"
-            value={formData.currentSemester}
-            onChange={handleChange}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <TextField
-            required
-            fullWidth
-            label="Current Year"
-            name="currentYear"
-            type="number"
-            value={formData.currentYear}
-            onChange={handleChange}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <TextField
-            required
-            fullWidth
-            label="Expected Graduation Year"
-            name="expectedGraduationYear"
-            type="number"
-            value={formData.expectedGraduationYear}
-            onChange={handleChange}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <TextField
-            required
-            fullWidth
-            label="Registration Number"
-            name="registrationNumber"
-            value={formData.registrationNumber}
-            onChange={handleChange}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <TextField
-            required
-            fullWidth
-            label="Registration Year"
-            name="registrationYear"
-            type="number"
-            value={formData.registrationYear}
-            onChange={handleChange}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <TextField
-            required
-            fullWidth
-            label="Name of Mentor"
-            name="mentorName"
-            value={formData.mentorName}
-            onChange={handleChange}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <FormControlLabel
-            control={<Checkbox name="hasScholarship" checked={formData.hasScholarship} onChange={handleChange} />}
-            label="Scholarship/Freeship Programme"
-          />
-        </Grid>
-
-        {formData.hasScholarship && (
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Scholarship Details"
-              name="scholarshipDetails"
-              multiline
-              rows={3}
-              value={formData.scholarshipDetails}
-              onChange={handleChange}
-            />
-          </Grid>
-        )}
-      </Grid>
-    </Box>
-  )
+      {/* Submit Button */}
+      <Button
+        variant="contained"
+        sx={{
+          mt: 2,
+          borderRadius: "10px",
+          background: "#b70924",
+          "&:hover": { background: "#90071d" },
+          width: isMobile ? "100%" : "auto",
+        }}
+      >
+        Submit
+      </Button>
+    </Container>
+  );
 }
-

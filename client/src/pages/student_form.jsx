@@ -1,185 +1,88 @@
-"use client";
-
-import { useState } from "react";
-import { 
-  Box, 
-  Stepper, 
-  Step, 
-  StepLabel, 
-  Button, 
-  Typography, 
-  Paper,
-  Container,
-  useMediaQuery,
-  AppBar,
-  Toolbar,
-  IconButton
-} from "@mui/material";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import React, { useState } from "react";
+import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 import { motion } from "framer-motion";
-import { KeyboardArrowLeft, KeyboardArrowRight, Save } from "@mui/icons-material";
+import Sidebar from "../components/Sidebar";
 import PersonalInfoForm from "../forms/personal-info-form";
+import Navbar from "../components/Navbar";
 import EnrollmentDetailsForm from "../forms/enrollment-details-forms";
 import AcademicBackgroundForm from "../forms/academic-background-form";
 import AcademicInfoForm from "../forms/academic-info-form";
+import ProgressionForm from "../forms/progression-form";
 import CoCurricularForm from "../forms/co-curricular-form";
 import MiscellaneousForms from "../forms/miscellaneous-forms";
-import ProgressionForm from "../forms/progression-form";
-import Navbar from "../components/Navbar";
-
-// Custom Theme
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#1976d2",
-    },
-    secondary: {
-      main: "#dc004e",
-    },
-  },
-  typography: {
-    fontFamily: [
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-    ].join(','),
-    fontSize: 14, // Slightly smaller font
-  },
-  components: {
-    MuiPaper: {
-      styleOverrides: {
-        root: {
-          //padding: '20px',
-         // borderRadius: "16px",
-        },
-      },
-    },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: "8px",
-        },
-      },
-    },
-  },
-});
-
-const steps = [
-  "Personal Information",
-  "Enrollment Details",
-  "Academic Background",
-  "Academic Information",
-  "Co-Curricular Activities",
-  "Miscellaneous Information",
-  "Progression/Placement/Examinations",
+const sections = [{ title: "General Info", component:<PersonalInfoForm/> }, 
+  { title: "Enrollment Details", component:<EnrollmentDetailsForm/> }, 
+  { title: "Academic Background", component:<AcademicBackgroundForm/> }, 
+  { title: "Academic Info", component:<AcademicInfoForm/> }
+  , { title: "Placement", component:<ProgressionForm/> }
+  , { title: "Co-Curricular and Extra-Curricular Activities", component:<CoCurricularForm/> }
+  , { title: "Miscallaneous", component:<MiscellaneousForms/> }
+  
 ];
 
-export default function StudentPortfolio() {
-  const [activeStep, setActiveStep] = useState(0);
-  const [formData, setFormData] = useState({});
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const handleNext = () => setActiveStep((prev) => prev + 1);
-  const handleBack = () => setActiveStep((prev) => prev - 1);
-  const handleFormChange = (sectionData) => setFormData((prev) => ({ ...prev, ...sectionData }));
-  const handleSubmit = () => alert("Portfolio submitted successfully!");
-
-  const getStepContent = (step) => {
-    switch (step) {
-      case 0: return <PersonalInfoForm onChange={handleFormChange} />;
-      case 1: return <EnrollmentDetailsForm onChange={handleFormChange} />;
-      case 2: return <AcademicBackgroundForm onChange={handleFormChange} />;
-      case 3: return <AcademicInfoForm onChange={handleFormChange} />;
-      case 4: return <CoCurricularForm onChange={handleFormChange} />;
-      case 5: return <MiscellaneousForms onChange={handleFormChange} />;
-      case 6: return <ProgressionForm onChange={handleFormChange} />;
-      default: return "Unknown step";
-    }
-  };
+export default function MultiStepForm() {
+  const [activeSection, setActiveSection] = useState(0);
+  const isMobile = useMediaQuery("(max-width:900px)");
 
   return (
-    <ThemeProvider theme={theme}>
-      {/* Navbar */}
-     <Navbar/>
-
-      {/* Form Container */}
-      <Container maxWidth="md" sx={{ mt: 12, display: "flex", justifyContent: "center" }}>
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }} 
-          animate={{ opacity: 1, y: 0 }} 
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <Paper elevation={6} sx={{ p: 4, borderRadius: "16px", textAlign: "center" }}>
-            {/* Title */}
-            <Typography variant="h4" sx={{ fontWeight: "bold", mb: 3, color: "#333" }}>
-              Student Portfolio Information System
-            </Typography>
-
-            {/* Stepper */}
-            <Stepper 
-              activeStep={activeStep} 
-              alternativeLabel={!isMobile} 
-              orientation={isMobile ? "vertical" : "horizontal"} 
-              sx={{ mb: 3 }}
-            >
-              {steps.map((label) => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-
-            {/* Form Content */}
-            <motion.div 
-              key={activeStep} 
-              initial={{ opacity: 0, scale: 0.9 }} 
-              animate={{ opacity: 1, scale: 1 }} 
-              transition={{ duration: 0.5 }}
-            >
-              {activeStep === steps.length ? (
-                <Box textAlign="center">
-                  <Typography sx={{ mb: 3 }}>All steps completed - your portfolio is ready for submission.</Typography>
-                  <Button 
-                    variant="contained" 
-                    color="primary" 
-                    onClick={handleSubmit}
-                    startIcon={<Save />}
-                    sx={{ px: 3, py: 1.5, borderRadius: "8px" }}
-                  >
-                    Submit Portfolio
-                  </Button>
-                </Box>
-              ) : (
-                <Box>
-                  <Box sx={{ mb: 4 }}>{getStepContent(activeStep)}</Box>
-                  <Box sx={{ display: "flex", justifyContent: "space-between", mt: 3 }}>
-                    <Button
-                      color="inherit"
-                      disabled={activeStep === 0}
-                      onClick={handleBack}
-                      startIcon={<KeyboardArrowLeft />}
-                      sx={{ borderRadius: "8px", px: 2, py: 1 }}
-                    >
-                      Back
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleNext}
-                      endIcon={<KeyboardArrowRight />}
-                      sx={{ borderRadius: "8px", px: 3, py: 1.5 }}
-                    >
-                      {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                    </Button>
-                  </Box>
-                </Box>
-              )}
-            </motion.div>
-          </Paper>
-        </motion.div>
-      </Container>
-    </ThemeProvider>
+    <Box
+      sx={{
+        //flex:1,
+       flexGrow:1,
+        width: "100vw",
+      height: "100vh",
+        display: "flex",
+        flexDirection: isMobile ? "column" : "row",
+       overflowY:isMobile&&'auto',
+      }}
+    >
+      {/* Sidebar (Only for Desktop) */}
+      {!isMobile && (
+        <Sidebar activeSection={activeSection} setActiveSection={setActiveSection} />
+      )}
+      {isMobile && (
+        <Navbar/>
+      )}
+      {/* Form Section */}
+      <Box
+        
+        key={activeSection}
+        
+        sx={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+       
+          padding: isMobile ? "20px" : "40px",
+          width: "100%",
+          // height:'100vh',
+           overflowY:!isMobile&&'auto'
+          //minHeight: "100vh", 
+          //paddingTop: isMobile ? "1120px" : "0px", // Adds space at the top to prevent clipping
+        }}
+      >
+        <Typography variant="h5" sx={{ fontWeight: "bold", mb: 2, color:'black' }}>
+          {sections[activeSection].title}
+        </Typography>
+        {sections[activeSection].component}
+        {isMobile && (
+          <Button
+            variant="contained"
+            sx={{
+              mt: 3,
+              borderRadius: "10px",
+              background: "#b70924",
+              color: "#fff",
+              "&:hover": { background: "#90071d" },
+            }}
+            onClick={() =>
+              setActiveSection((prev) => (prev < sections.length - 1 ? prev + 1 : prev))
+            }
+          >
+            Next
+          </Button>
+        )}
+      </Box>
+    </Box>
   );
 }
