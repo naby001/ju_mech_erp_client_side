@@ -14,6 +14,55 @@ import {
   Divider,
   Box
 } from "@mui/material";
+import { motion } from "framer-motion";
+const FloatingLabelTextField = ({ label, name, type = "text", value, onChange, required, multiline, rows }) => (
+  <Box sx={{ position: "relative", width: "100%", mb: 3 }}>
+    <Typography
+      sx={{
+        position: "absolute",
+        top: value ? -12 : "50%",
+        left: "12px",
+        transform: value ? "translateY(0) scale(0.85)" : "translateY(-50%)",
+        transformOrigin: "left",
+        fontSize: "16px",
+        fontWeight: 600,
+        color: value ? "#635acc" : "#888",
+        transition: "all 0.3s ease",
+        pointerEvents: "none",
+        background: "white",
+        px: 1,
+        borderRadius: "4px",
+      }}
+    >
+      {label}
+    </Typography>
+    <motion.input
+      type={type}
+      name={name}
+      value={value}
+      onChange={onChange}
+      required={required}
+      rows={rows}
+      style={{
+        width: "100%",
+        padding: multiline ? "20px 12px 10px" : "16px 12px 8px",
+        fontSize: "16px",
+        fontWeight: 500,
+        background: "rgba(255, 255, 255, 0.2)",
+        border: "2px solid #ccc",
+        borderRadius: "8px",
+        outline: "none",
+        color: "#222",
+        transition: "all 0.3s ease",
+       // backdropFilter: "blur(10px)",
+      }}
+      whileFocus={{
+        border: "2px solid #635acc",
+        boxShadow: "0px 4px 8px rgba(99, 90, 204, 0.3)",
+      }}
+    />
+  </Box>
+);
 
 export default function PersonalInfoForm({ onChange }) {
   const [formData, setFormData] = useState({
@@ -56,12 +105,13 @@ export default function PersonalInfoForm({ onChange }) {
     });
   };
 
+  
   return (
-    <Box>
+    <Box sx={{ }}>
       <Typography variant="h5" gutterBottom>
         Personal Information
       </Typography>
-      <Divider className="mb-4" />
+ 
       
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
