@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Box, Button, Typography, useMediaQuery } from "@mui/material";
+import { Box, Button, Typography, useMediaQuery, Drawer, IconButton } from "@mui/material";
 import { motion } from "framer-motion";
+import MenuIcon from "@mui/icons-material/Menu";
 import Sidebar from "../components/Sidebar";
 import PersonalInfoForm from "../forms/personal-info-form";
 import Navbar from "../components/Navbar";
@@ -10,58 +11,68 @@ import AcademicInfoForm from "../forms/academic-info-form";
 import ProgressionForm from "../forms/progression-form";
 import CoCurricularForm from "../forms/co-curricular-form";
 import MiscellaneousForms from "../forms/miscellaneous-forms";
-const sections = [{ title: "General Info", component:<PersonalInfoForm/> }, 
-  { title: "Enrollment Details", component:<EnrollmentDetailsForm/> }, 
-  { title: "Academic Background", component:<AcademicBackgroundForm/> }, 
-  { title: "Academic Info", component:<AcademicInfoForm/> }
-  , { title: "Placement", component:<ProgressionForm/> }
-  , { title: "Co-Curricular and Extra-Curricular Activities", component:<CoCurricularForm/> }
-  , { title: "Miscallaneous", component:<MiscellaneousForms/> }
-  
+
+const sections = [
+  { title: "General Info", component: <PersonalInfoForm /> },
+  { title: "Enrollment Details", component: <EnrollmentDetailsForm /> },
+  { title: "Academic Background", component: <AcademicBackgroundForm /> },
+  { title: "Academic Info", component: <AcademicInfoForm /> },
+  { title: "Placement", component: <ProgressionForm /> },
+  { title: "Co-Curricular and Extra-Curricular Activities", component: <CoCurricularForm /> },
+  { title: "Miscellaneous", component: <MiscellaneousForms /> },
 ];
 
 export default function MultiStepForm() {
   const [activeSection, setActiveSection] = useState(0);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const isMobile = useMediaQuery("(max-width:900px)");
 
   return (
     <Box
       sx={{
-        //flex:1,
-       flexGrow:1,
+        flexGrow: 1,
         width: "100vw",
-      height: "100vh",
+        height: "100vh",
         display: "flex",
         flexDirection: isMobile ? "column" : "row",
-       overflowY:isMobile&&'auto',
+        overflowY: isMobile ? "auto" : "hidden",
       }}
     >
-      {/* Sidebar (Only for Desktop) */}
+      {/* Sidebar (Desktop and Mobile) */}
       {!isMobile && (
         <Sidebar activeSection={activeSection} setActiveSection={setActiveSection} />
       )}
       {isMobile && (
-        <Navbar/>
+        <>
+          <Navbar />
+          <IconButton
+            sx={{ position: "absolute", top: 16, left: 16 }}
+            onClick={() => setMobileSidebarOpen(true)}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Drawer
+            anchor="left"
+            open={mobileSidebarOpen}
+            onClose={() => setMobileSidebarOpen(false)}
+          >
+            <Sidebar activeSection={activeSection} setActiveSection={setActiveSection} />
+          </Drawer>
+        </>
       )}
       {/* Form Section */}
       <Box
-        
         key={activeSection}
-        
         sx={{
           flex: 1,
           display: "flex",
           flexDirection: "column",
-       
           padding: isMobile ? "20px" : "40px",
           width: "100%",
-          // height:'100vh',
-           overflowY:!isMobile&&'auto'
-          //minHeight: "100vh", 
-          //paddingTop: isMobile ? "1120px" : "0px", // Adds space at the top to prevent clipping
+          overflowY: "auto",
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: "bold", mb: 2, color:'black' }}>
+        <Typography variant="h5" sx={{ fontWeight: "bold", mb: 2, color: "black" }}>
           {sections[activeSection].title}
         </Typography>
         {sections[activeSection].component}
