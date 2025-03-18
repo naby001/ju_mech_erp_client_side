@@ -89,7 +89,59 @@ export default function MultiStepForm({onChange}) {
 
   //state to control extra-curricular and co-curricular form details
   const [curricularformData, setCurricularFormData] = useState({
-
+      clubs:{
+        name: "",
+        role: "",
+        accolades: "",
+        achievements: "", 
+        certificate:null
+      },
+      techFests: {
+        name:"",
+        organizer: "",
+        eventType: "",
+        year: "",
+        role: "",
+        teammates: "",
+        outcome: "",
+        certificate: ""
+      },
+      leadership: {
+        role: "",
+        details: "",
+        certificate: ""
+      },
+      sports: {
+        name: "",
+        level: "",
+        venue: "",
+        year: "",
+        result: "",
+        accolades: "",
+        certificate: ""
+      },
+      skills: {
+        name: "",
+        offeredby: "",
+        mode: "",
+        duration: "",
+        fee: "",
+        certificate: null
+      },
+      socialActivities: {
+        name: "",
+        details: "",
+        date: "",
+        location: "",
+        certificate: null
+      },
+      seminars: {
+        name: "",
+        venue: "",
+        date: "",
+        organizer: "",
+        certificate: null
+      }
   })
 
   //state to control misc form details
@@ -163,6 +215,21 @@ export default function MultiStepForm({onChange}) {
     })
   }
 
+  const handleCurricularChange = event => {
+    const {name,value} = event.target
+    setCurricularFormData({
+      ...curricularformData,
+      [name]:value
+    })
+
+    onChange({
+      acedamicformData:{
+        ...acedamicformData,
+        [name]:value
+      }
+    })
+  }
+
   // array of dicts containing section titles and component tags
   const sections = [
     { title: "General Info", component: <PersonalInfoForm formData={personalformData} handleChange={handlepersonalChange}/> },
@@ -170,7 +237,7 @@ export default function MultiStepForm({onChange}) {
     { title: "Academic Background", component: <AcademicBackgroundForm formData={acadbackformData} handleChange={handleacadbackChange}/> },
     { title: "Academic Info", component: <AcademicInfoForm formData={acedamicformData} handleChange={handleacedamicChange} /> },
     { title: "Placement", component: <ProgressionForm /> },
-    { title: "Co-Curricular and Extra-Curricular Activities", component: <CoCurricularForm /> },
+    { title: "Co-Curricular and Extra-Curricular Activities", component: <CoCurricularForm  formData={curricularformData} handleChange={handleCurricularChange} /> },
     { title: "Miscellaneous", component: <MiscellaneousForms /> },
   ];
 
