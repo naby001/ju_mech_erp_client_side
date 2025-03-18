@@ -12,20 +12,121 @@ import ProgressionForm from "../forms/progression-form";
 import CoCurricularForm from "../forms/co-curricular-form";
 import MiscellaneousForms from "../forms/miscellaneous-forms";
 
-const sections = [
-  { title: "General Info", component: <PersonalInfoForm /> },
-  { title: "Enrollment Details", component: <EnrollmentDetailsForm /> },
-  { title: "Academic Background", component: <AcademicBackgroundForm /> },
-  { title: "Academic Info", component: <AcademicInfoForm /> },
-  { title: "Placement", component: <ProgressionForm /> },
-  { title: "Co-Curricular and Extra-Curricular Activities", component: <CoCurricularForm /> },
-  { title: "Miscellaneous", component: <MiscellaneousForms /> },
-];
+
 
 export default function MultiStepForm() {
   const [activeSection, setActiveSection] = useState(0);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const isMobile = useMediaQuery("(max-width:900px)");
+  const [personalformData, setPersonalFormData] = useState({
+    name: "",
+    dob: "",
+    gender: "",
+    category: "",
+    isPwd: false,
+    mobileNo: "",
+    whatsappNo: "",
+    email: "",
+    alternateEmail: "",
+    presentAddress: "",
+    presentState: "",
+    permanentAddress: "",
+    permanentState: "",
+    emergencyContactName: "",
+    emergencyContactNumber: "",
+    emergencyContactRelation: "",
+    nationality: "",
+    idType: "",
+    idNumber: "",
+    familyIncome: ""
+  });
+
+  const [enrollformData, setEnrollFormData] = useState({
+    rollNumber: "",
+    section: "",
+    programme: "",
+    isLateralEntry: false,
+    admissionYear: "",
+    currentSemester: "",
+    currentYear: "",
+    expectedGraduationYear: "",
+    registrationNumber: "",
+    registrationYear: "",
+    mentorName: "",
+    hasScholarship: false,
+    scholarshipDetails: ""
+  });
+
+  const [acadbackformData, setAcadBackFormData] = useState({
+    secondaryMarks: "",
+    secondaryYear: "",
+    higherSecondaryMarks: "",
+    higherSecondaryYear: "",
+    mediumOfEducation: "",
+    entranceExamName: "",
+    entranceExamRank: "",
+    entranceExamYear: ""
+  });
+
+  const handlepersonalChange = (event) => {
+    const { name, value, checked, type } = event.target;
+    const newValue = type === 'checkbox' ? checked : value;
+    
+    setPersonalFormData({
+      ...formData,
+      [name]: newValue
+    });
+    
+    onChange({
+      personalInfo: {
+        ...formData,
+        [name]: newValue
+      }
+    });
+  };
+
+  const handleenrollChange = (event) => {
+    const { name, value, checked, type } = event.target;
+    const newValue = type === 'checkbox' ? checked : value;
+    
+    setEnrollFormData({
+      ...formData,
+      [name]: newValue
+    });
+    
+    onChange({
+      enrollmentDetails: {
+        ...formData,
+        [name]: newValue
+      }
+    });
+  };
+  
+  const handleacadbackChange = (event) => {
+    const { name, value } = event.target;
+    
+    setAcadBackFormData({
+      ...formData,
+      [name]: value
+    });
+    
+    onChange({
+      academicBackground: {
+        ...formData,
+        [name]: value
+      }
+    });
+  };
+
+  const sections = [
+    { title: "General Info", component: <PersonalInfoForm formData={personalformData} handleChange={handlepersonalChange}/> },
+    { title: "Enrollment Details", component: <EnrollmentDetailsForm formData={enrollformData} handleChange={handleenrollChange}/> },
+    { title: "Academic Background", component: <AcademicBackgroundForm formData={acadbackformData} handleChange={handleacadbackChange}/> },
+    { title: "Academic Info", component: <AcademicInfoForm /> },
+    { title: "Placement", component: <ProgressionForm /> },
+    { title: "Co-Curricular and Extra-Curricular Activities", component: <CoCurricularForm /> },
+    { title: "Miscellaneous", component: <MiscellaneousForms /> },
+  ];
 
   return (
     <Box

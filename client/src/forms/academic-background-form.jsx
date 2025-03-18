@@ -13,33 +13,10 @@ import {
   Box
 } from "@mui/material";
 
-export default function AcademicBackgroundForm({ onChange }) {
-  const [formData, setFormData] = useState({
-    secondaryMarks: "",
-    secondaryYear: "",
-    higherSecondaryMarks: "",
-    higherSecondaryYear: "",
-    mediumOfEducation: "",
-    entranceExamName: "",
-    entranceExamRank: "",
-    entranceExamYear: ""
-  });
+export default function AcademicBackgroundForm({ onChange, formData, handleChange }) {
+ 
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-    
-    onChange({
-      academicBackground: {
-        ...formData,
-        [name]: value
-      }
-    });
-  };
+  
 
   return (
     <Box>
