@@ -15,39 +15,39 @@ import {
   Box
 } from "@mui/material";
 
-export default function EnrollmentDetailsForm({ onChange }) {
-  const [formData, setFormData] = useState({
-    rollNumber: "",
-    section: "",
-    programme: "",
-    isLateralEntry: false,
-    admissionYear: "",
-    currentSemester: "",
-    currentYear: "",
-    expectedGraduationYear: "",
-    registrationNumber: "",
-    registrationYear: "",
-    mentorName: "",
-    hasScholarship: false,
-    scholarshipDetails: ""
-  });
+export default function EnrollmentDetailsForm({ onChange, formData, handleChange}) {
+  // const [formData, setFormData] = useState({
+  //   rollNumber: "",
+  //   section: "",
+  //   programme: "",
+  //   isLateralEntry: false,
+  //   admissionYear: "",
+  //   currentSemester: "",
+  //   currentYear: "",
+  //   expectedGraduationYear: "",
+  //   registrationNumber: "",
+  //   registrationYear: "",
+  //   mentorName: "",
+  //   hasScholarship: false,
+  //   scholarshipDetails: ""
+  // });
 
-  const handleChange = (event) => {
-    const { name, value, checked, type } = event.target;
-    const newValue = type === 'checkbox' ? checked : value;
+  // const handleChange = (event) => {
+  //   const { name, value, checked, type } = event.target;
+  //   const newValue = type === 'checkbox' ? checked : value;
     
-    setFormData({
-      ...formData,
-      [name]: newValue
-    });
+  //   setFormData({
+  //     ...formData,
+  //     [name]: newValue
+  //   });
     
-    onChange({
-      enrollmentDetails: {
-        ...formData,
-        [name]: newValue
-      }
-    });
-  };
+  //   onChange({
+  //     enrollmentDetails: {
+  //       ...formData,
+  //       [name]: newValue
+  //     }
+  //   });
+  // };
 
   return (
     <Box>
