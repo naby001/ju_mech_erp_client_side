@@ -235,7 +235,7 @@ export default function MultiStepForm({onChange}) {
     { title: "General Info", component: <PersonalInfoForm formData={personalformData} handleChange={handlepersonalChange}/> },
     { title: "Enrollment Details", component: <EnrollmentDetailsForm formData={enrollformData} handleChange={handleenrollChange}/> },
     { title: "Academic Background", component: <AcademicBackgroundForm formData={acadbackformData} handleChange={handleacadbackChange}/> },
-    { title: "Academic Info", component: <AcademicInfoForm formData={acedamicformData} handleChange={handleacedamicChange} /> },
+    { title: "Academic Info", component: <AcademicInfoForm formData={acedamicformData} handleChangeCur={handleacedamicChange} /> },
     { title: "Placement", component: <ProgressionForm /> },
     { title: "Co-Curricular and Extra-Curricular Activities", component: <CoCurricularForm  formData={curricularformData} handleChange={handleCurricularChange} /> },
     { title: "Miscellaneous", component: <MiscellaneousForms /> },
