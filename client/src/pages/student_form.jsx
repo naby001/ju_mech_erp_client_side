@@ -79,22 +79,21 @@ export default function MultiStepForm({onChange}) {
       sgpa: "",
       cgpa: "",
     }],
-    selctedProfessional: [""],
-    selectedOpen: [""]
+    selectedProfessional: [],
+    selectedOpen: []
   })
 
   //state to control placement details at the university
-  const [placemenformtDetails, setPlacementFormDetails] = useState({
-
+  const [placemenformtData, setPlacementFormData] = useState({
   })
 
   //state to control extra-curricular and co-curricular form details
-  const [curricularformDetails, setCurricularFormDetails] = useState({
+  const [curricularformData, setCurricularFormData] = useState({
 
   })
 
   //state to control misc form details
-  const [miscformDetails, setMiscFormDetails] = useState({
+  const [miscformData, setMiscFormData] = useState({
 
   })
 
@@ -150,6 +149,18 @@ export default function MultiStepForm({onChange}) {
 
   const handleacedamicChange = (event) => {
     const { name, value } = event.target
+
+    setAcedamicFormData({
+      ...acedamicformData,
+      [name]: value
+    })
+
+    onChange({
+      acedamicformData:{
+        ...acedamicformData,
+        [name]: value
+      }
+    })
   }
 
   // array of dicts containing section titles and component tags
@@ -157,7 +168,7 @@ export default function MultiStepForm({onChange}) {
     { title: "General Info", component: <PersonalInfoForm formData={personalformData} handleChange={handlepersonalChange}/> },
     { title: "Enrollment Details", component: <EnrollmentDetailsForm formData={enrollformData} handleChange={handleenrollChange}/> },
     { title: "Academic Background", component: <AcademicBackgroundForm formData={acadbackformData} handleChange={handleacadbackChange}/> },
-    { title: "Academic Info", component: <AcademicInfoForm /> },
+    { title: "Academic Info", component: <AcademicInfoForm formData={acedamicformData} handleChange={handleacedamicChange} /> },
     { title: "Placement", component: <ProgressionForm /> },
     { title: "Co-Curricular and Extra-Curricular Activities", component: <CoCurricularForm /> },
     { title: "Miscellaneous", component: <MiscellaneousForms /> },
