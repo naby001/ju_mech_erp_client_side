@@ -64,46 +64,46 @@ const FloatingLabelTextField = ({ label, name, type = "text", value, onChange, r
   </Box>
 );
 
-export default function PersonalInfoForm({ onChange }) {
-  const [formData, setFormData] = useState({
-    name: "",
-    dob: "",
-    gender: "",
-    category: "",
-    isPwd: false,
-    mobileNo: "",
-    whatsappNo: "",
-    email: "",
-    alternateEmail: "",
-    presentAddress: "",
-    presentState: "",
-    permanentAddress: "",
-    permanentState: "",
-    emergencyContactName: "",
-    emergencyContactNumber: "",
-    emergencyContactRelation: "",
-    nationality: "",
-    idType: "",
-    idNumber: "",
-    familyIncome: ""
-  });
+export default function PersonalInfoForm({ onChange, formData, handleChange }) {
+  // const [formData, setFormData] = useState({
+  //   name: "",
+  //   dob: "",
+  //   gender: "",
+  //   category: "",
+  //   isPwd: false,
+  //   mobileNo: "",
+  //   whatsappNo: "",
+  //   email: "",
+  //   alternateEmail: "",
+  //   presentAddress: "",
+  //   presentState: "",
+  //   permanentAddress: "",
+  //   permanentState: "",
+  //   emergencyContactName: "",
+  //   emergencyContactNumber: "",
+  //   emergencyContactRelation: "",
+  //   nationality: "",
+  //   idType: "",
+  //   idNumber: "",
+  //   familyIncome: ""
+  // });
 
-  const handleChange = (event) => {
-    const { name, value, checked, type } = event.target;
-    const newValue = type === 'checkbox' ? checked : value;
+  // const handleChange = (event) => {
+  //   const { name, value, checked, type } = event.target;
+  //   const newValue = type === 'checkbox' ? checked : value;
     
-    setFormData({
-      ...formData,
-      [name]: newValue
-    });
+  //   setFormData({
+  //     ...formData,
+  //     [name]: newValue
+  //   });
     
-    onChange({
-      personalInfo: {
-        ...formData,
-        [name]: newValue
-      }
-    });
-  };
+  //   onChange({
+  //     personalInfo: {
+  //       ...formData,
+  //       [name]: newValue
+  //     }
+  //   });
+  // };
 
   
   return (
