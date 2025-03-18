@@ -20,10 +20,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Tabs,
-  Tab,
-  FormControlLabel,
-  Checkbox,
   Chip,
   useMediaQuery
 } from "@mui/material";
@@ -94,7 +90,7 @@ export default function AcademicInfoForm({ onChange }) {
 
   return (
     <Box>
-      <Typography variant="h5" gutterBottom>
+      <Typography variant="h4" sx={{mb:4}} gutterBottom>
         Academic Information
       </Typography>
       <Divider className="mb-4" />
@@ -108,9 +104,8 @@ export default function AcademicInfoForm({ onChange }) {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Semester</TableCell>
-                  <TableCell>SGPA</TableCell>
-                  
+                  <TableCell>Semester</TableCell> 
+                  <TableCell>SGPA</TableCell>                  
                   <TableCell>Actions</TableCell>
                 </TableRow>
               </TableHead>
@@ -130,11 +125,11 @@ export default function AcademicInfoForm({ onChange }) {
                     </TableCell>
                    
                     <TableCell sx={{display:'flex', flexDirection:'row'}}>
-                    <IconButton >
+                      <IconButton >
                         <CloudUpload/>
                       </IconButton>
                       <IconButton  onClick={addGrade}>
-                      <Add />
+                        <Add />
                       </IconButton>
                       <IconButton color="error" onClick={() => removeGrade(index)} disabled={grades.length === 1}>
                         <Delete />
