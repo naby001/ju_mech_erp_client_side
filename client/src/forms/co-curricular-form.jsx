@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 import { Add, Delete, ExpandMore } from "@mui/icons-material";
 
-export default function CoCurricularForm() {
+export default function CoCurricularForm({onChange, formData, handleChangeCur}) {
   const isMobile = useMediaQuery("(max-width:900px)");
 
   // Default row structures for each section
