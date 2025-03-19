@@ -60,8 +60,28 @@ export default function CoCurricularForm({onChange, formData, handleChangeCur}) 
     setState(updatedState);
   };
 
+  // Function to export data
+  const exportData = () => {
+    return {
+      clubs,
+      techFests,
+      leadership,
+      sports,
+      skills,
+      socialActivities,
+      seminars,
+    };
+  };
+
   return (
     <Box sx={{ padding: "20px", width: "100%", backgroundColor: "#f5f5f5", borderRadius: "10px" }}>
+      <Button
+        variant="contained"
+        onClick={() => console.log(exportData())}
+        sx={{ mb: 2 }}
+      >
+        Export Data
+      </Button>
       {/* Clubs Section */}
       <FormControlLabel
         control={<Checkbox checked={clubs.length > 0} onChange={() => setClubs(clubs.length > 0 ? [] : [defaultClubRow])} />}

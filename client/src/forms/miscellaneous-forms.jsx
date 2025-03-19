@@ -20,6 +20,16 @@ export default function MiscellaneousForm() {
     setFormData({ ...formData, [field]: value });
   };
 
+  const exportDataAsArray = () => {
+    const dataArray = [
+      formData.lor,
+      formData.keyLearnings,
+      formData.sop,
+      formData.vision,
+    ];
+    console.log(dataArray); // Replace with desired export logic
+  };
+
   return (
     <Container
       component={motion.div}
@@ -112,6 +122,21 @@ export default function MiscellaneousForm() {
         }}
       >
         Submit
+      </Button>
+
+      {/* Export Data Button */}
+      <Button
+        variant="contained"
+        sx={{
+          mt: 2,
+          borderRadius: "10px",
+          background: "#007BFF",
+          "&:hover": { background: "#0056b3" },
+          width: isMobile ? "100%" : "auto",
+        }}
+        onClick={exportDataAsArray}
+      >
+        Export Data
       </Button>
     </Container>
   );
