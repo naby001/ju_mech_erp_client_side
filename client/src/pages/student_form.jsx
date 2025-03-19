@@ -73,7 +73,7 @@ export default function MultiStepForm() {
     const newValue = type === 'checkbox' ? checked : value;
     
     setPersonalFormData({
-      ...formData,
+      ...personalformData,
       [name]: newValue
     });
     
@@ -90,7 +90,7 @@ export default function MultiStepForm() {
     const newValue = type === 'checkbox' ? checked : value;
     
     setEnrollFormData({
-      ...formData,
+      ...enrollformData,
       [name]: newValue
     });
     
@@ -106,7 +106,7 @@ export default function MultiStepForm() {
     const { name, value } = event.target;
     
     setAcadBackFormData({
-      ...formData,
+      ...acadbackformData,
       [name]: value
     });
     
