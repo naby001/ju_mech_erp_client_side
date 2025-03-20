@@ -1,6 +1,4 @@
 "use client";
-
-import { useState } from "react";
 import { 
   TextField, 
   Grid, 
@@ -108,11 +106,11 @@ export default function PersonalInfoForm({ onChange, formData, handleChange }) {
   
   return (
     <Box sx={{ }}>
-      <Typography variant="h5" gutterBottom>
+      <Typography variant="h4" sx={{mb:5}} gutterBottom>
         Personal Information
       </Typography>
  
-      
+      {/* Input field to take student name as entry */}
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           <TextField
@@ -125,6 +123,7 @@ export default function PersonalInfoForm({ onChange, formData, handleChange }) {
           />
         </Grid>
         
+        {/* Input field to tale DOB of the student */}
         <Grid item xs={12} md={6}>
           <TextField
             required
@@ -138,6 +137,7 @@ export default function PersonalInfoForm({ onChange, formData, handleChange }) {
           />
         </Grid>
         
+        {/* Dropdown menu to select gender */}
         <Grid item xs={12} md={4}>
           <FormControl fullWidth required>
             <InputLabel>Gender</InputLabel>
@@ -154,6 +154,7 @@ export default function PersonalInfoForm({ onChange, formData, handleChange }) {
           </FormControl>
         </Grid>
         
+        {/* Dropdown menu to select category */}
         <Grid item xs={12} md={4}>
           <FormControl fullWidth required>
             <InputLabel>Category</InputLabel>
@@ -171,6 +172,7 @@ export default function PersonalInfoForm({ onChange, formData, handleChange }) {
           </FormControl>
         </Grid>
         
+        {/* To check PWD */}
         <Grid item xs={12} md={4}>
           <FormControlLabel
             control={
@@ -180,7 +182,7 @@ export default function PersonalInfoForm({ onChange, formData, handleChange }) {
                 onChange={handleChange}
               />
             }
-            label="Differently Abled/PWD"
+            label="Differently-Abled/PWD"
           />
         </Grid>
         

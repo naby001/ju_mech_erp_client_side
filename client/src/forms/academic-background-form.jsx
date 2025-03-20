@@ -14,10 +14,6 @@ import {
 } from "@mui/material";
 
 export default function AcademicBackgroundForm({ onChange, formData, handleChange }) {
- 
-
-  
-
   return (
     <Box>
       <Typography variant="h5" gutterBottom>
