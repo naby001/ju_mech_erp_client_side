@@ -21,10 +21,20 @@ import {
 } from "@mui/material";
 import { Add, Delete, ExpandMore } from "@mui/icons-material";
 
-export default function CoCurricularForm({onChange, formData, handleChangeCur}) {
+export default function CoCurricularForm({ onChange, formData, handleChangeCur }) {
   const isMobile = useMediaQuery("(max-width:900px)");
 
   // Default row structures for each section
+  const defaultRows = {
+    clubs: { name: "", role: "", accolades: "", achievements: "", certificate: null },
+    techFests: { name: "", organizer: "", eventType: "", year: "", role: "", teammates: "", outcome: "", certificate: "" },
+    leadership: { role: "", details: "", certificate: "" },
+    sports: { name: "", level: "", venue: "", year: "", result: "", accolades: "", certificate: "" },
+    skills: { name: "", offeredby: "", mode: "", duration: "", fee: "", certificate: null },
+    socialActivities: { name: "", details: "", date: "", location: "", certificate: null },
+    seminars: { name: "", venue: "", date: "", organizer: "", certificate: null },
+  };
+
   const defaultClubRow = { name: "", role: "", accolades: "", achievements: "", certificate: null };
   const defaultTechFestRow = { name: "", organizer: "", eventType: "", year: "", role: "", teammates: "", outcome: "", certificate: null };
   const defaultLeadershipRow = { role: "", details: "", certificate: null };
@@ -43,31 +53,54 @@ export default function CoCurricularForm({onChange, formData, handleChangeCur}) 
   const [seminars, setSeminars] = useState([defaultSeminarRow]);
 
   // Handler to add a new row
-  const handleAddRow = (state, setState, defaultRow) => {
-    setState([...state, defaultRow]);
+  const handleAddRow = (section, defaultRow) => {
+    const updatedSection = [...(formData[section] || []), defaultRows[section]];
+    handleChangeCur({ target: { name: section, value: updatedSection } });
   };
 
   // Handler to update a row
-  const handleChange = (index, field, value, state, setState) => {
-    const updatedState = [...state];
-    updatedState[index][field] = value;
-    setState(updatedState);
+  const handleChange = (index, field, value, section) => {
+    const updatedSection = [...(formData[section] || [])]; // Ensure it's always an array
+    updatedSection[index][field] = value;
+    handleChangeCur({ target: { name: section, value: updatedSection } });
   };
 
   // Handler to remove a row
-  const handleRemoveRow = (index, state, setState) => {
-    const updatedState = state.filter((_, i) => i !== index);
-    setState(updatedState);
+  const handleRemoveRow = (index, section) => {
+    const updatedSection = formData[section].filter((_, i) => i !== index);
+    handleChangeCur({ target: { name: section, value: updatedSection } });
   };
 
   return (
     <Box sx={{ padding: "20px", width: "100%", backgroundColor: "#f5f5f5", borderRadius: "10px" }}>
-      {/* Clubs Section */}
+      {Object.keys(formData).map((section) => (
+        <FormControlLabel
+          key={section}
+          control={<Checkbox checked={formData[section].length > 0} onChange={() => handleChangeCur({ target: { name: section, value: formData[section].length > 0 ? [] : [defaultRows[section]] } })} />}
+          label={section.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+        />
+      ))}
+      {Object.keys(formData)?.map((section) =>
+        formData[section]?.length > 0 ? (
+          <Section
+            key={section}
+            title={section.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+            state={formData[section]}
+            section={section}
+            fields={Object?.keys(defaultRows[section])?.filter((key) => key !== "certificate")?.map((key) => ({ label: key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()), key }))}
+            isMobile={isMobile}
+            handleAddRow={handleAddRow}
+            handleChange={handleChange}
+            handleRemoveRow={handleRemoveRow}
+          />
+        ) : null
+      )}
+      {/* Clubs Section
       <FormControlLabel
         control={<Checkbox checked={clubs.length > 0} onChange={() => setClubs(clubs.length > 0 ? [] : [defaultClubRow])} />}
         label="Association with Clubs/Societies/Chapters"
       />
-      {clubs.length > 0 && (
+      {formData.clubs.length > 0 && (
         <Section
           title="Clubs/Societies"
           state={clubs}
@@ -84,9 +117,9 @@ export default function CoCurricularForm({onChange, formData, handleChangeCur}) 
           handleChange={handleChange}
           handleRemoveRow={handleRemoveRow}
         />
-      )}
+      )} */}
 
-      {/* Tech Fests Section */}
+      {/* Tech Fests Section
       <FormControlLabel
         control={<Checkbox checked={techFests.length > 0} onChange={() => setTechFests(techFests.length > 0 ? [] : [defaultTechFestRow])} />}
         label="Participation in Tech fests/Hackathon/Competitions"
@@ -111,9 +144,9 @@ export default function CoCurricularForm({onChange, formData, handleChangeCur}) 
           handleChange={handleChange}
           handleRemoveRow={handleRemoveRow}
         />
-      )}
+      )} */}
 
-      {/* Leadership Section */}
+      {/* Leadership Section
       <FormControlLabel
         control={<Checkbox checked={leadership.length > 0} onChange={() => setLeadership(leadership.length > 0 ? [] : [defaultLeadershipRow])} />}
         label="Leadership Qualities"
@@ -133,9 +166,9 @@ export default function CoCurricularForm({onChange, formData, handleChangeCur}) 
           handleChange={handleChange}
           handleRemoveRow={handleRemoveRow}
         />
-      )}
+      )} */}
 
-      {/* Sports Section */}
+      {/* Sports Section
       <FormControlLabel
         control={<Checkbox checked={sports.length > 0} onChange={() => setSports(sports.length > 0 ? [] : [defaultSportsRow])} />}
         label="Games and Sports"
@@ -159,9 +192,9 @@ export default function CoCurricularForm({onChange, formData, handleChangeCur}) 
           handleChange={handleChange}
           handleRemoveRow={handleRemoveRow}
         />
-      )}
+      )} */}
 
-      {/* Skills Section */}
+      {/* Skills Section
       <FormControlLabel
         control={<Checkbox checked={skills.length > 0} onChange={() => setSkills(skills.length > 0 ? [] : [defaultSkillsRow])} />}
         label="Skills and Certifications"
@@ -184,9 +217,9 @@ export default function CoCurricularForm({onChange, formData, handleChangeCur}) 
           handleChange={handleChange}
           handleRemoveRow={handleRemoveRow}
         />
-      )}
+      )} */}
 
-      {/* Social Activities Section */}
+      {/* Social Activities Section
       <FormControlLabel
         control={<Checkbox checked={socialActivities.length > 0} onChange={() => setSocialActivities(socialActivities.length > 0 ? [] : [defaultSocialRow])} />}
         label="Social Activities"
@@ -208,9 +241,9 @@ export default function CoCurricularForm({onChange, formData, handleChangeCur}) 
           handleChange={handleChange}
           handleRemoveRow={handleRemoveRow}
         />
-      )}
+      )} */}
 
-      {/* Seminars Section */}
+      {/* Seminars Section
       <FormControlLabel
         control={<Checkbox checked={seminars.length > 0} onChange={() => setSeminars(seminars.length > 0 ? [] : [defaultSeminarRow])} />}
         label="Participation in Seminars/Talks/Programs"
@@ -232,7 +265,7 @@ export default function CoCurricularForm({onChange, formData, handleChangeCur}) 
           handleChange={handleChange}
           handleRemoveRow={handleRemoveRow}
         />
-      )}
+      )} */}
     </Box>
   );
 }
@@ -284,7 +317,7 @@ function Section({
           <Table>
             <TableHead>
               <TableRow>
-                {fields.map((field) => (
+                {fields?.map((field) => (
                   <TableCell key={field.key}>{field.label}</TableCell>
                 ))}
                 <TableCell>Certificate</TableCell>
@@ -294,7 +327,7 @@ function Section({
             <TableBody>
               {state.map((row, index) => (
                 <TableRow key={index}>
-                  {fields.map((field) => (
+                  {fields?.map((field) => (
                     <TableCell key={field.key}>
                       <TextField
                         value={row[field.key]}

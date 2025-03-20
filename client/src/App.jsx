@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import HomePage from "./pages/HomePage";
 import StudentPortfolio from "./pages/student_form";
 import AuthPage from "./pages/AuthPage";
 import "./App.css";
@@ -30,7 +31,8 @@ function App() {
     <ThemeProvider theme={theme}>
       <Router>
         <Routes>
-          <Route path="/" element={<AuthPage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/auth" element={<AuthPage />} />
           <Route path="/updateform" element={<StudentPortfolio />} />
         </Routes>
       </Router>
