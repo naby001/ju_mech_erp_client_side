@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import StudentPortfolio from "./pages/student_form";
 import AuthPage from "./pages/AuthPage";
+import HomePage from "./pages/Home";
 import "./App.css";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -37,7 +38,7 @@ function App() {
         <Routes>
 
 
-          <Route path="/" element={!user?<HomePage />:<StudentPortfolio/>} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/auth" element={!user?<AuthPage />:<StudentPortfolio/>} />
 
           <Route path="/updateform" element={user?<StudentPortfolio />:<AuthPage/>} />
