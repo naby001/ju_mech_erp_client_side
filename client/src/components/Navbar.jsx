@@ -16,15 +16,15 @@ export default function Navbar({  }) {
 
         {/* Right: Sign In, Sign Up, and User Avatar */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          {/* <Button color="inherit">Sign In</Button>
-          <Button color="inherit">Sign Up</Button> */}
-             <Typography  sx={{ fontWeight: "bold", fontSize:"15px" }}>
-         {user.fullName}
-        </Typography>
-          <Avatar 
-            src={user?.avatar || "/default-avatar.png"} 
-            alt={user?.fullName} 
-            sx={{ width: 40, height: 40 }}
+
+          <Typography sx={{ fontWeight: "bold", fontSize: "15px" }}>
+            {user?.fullName}
+          </Typography>
+          <Avatar
+            src={user?.avatar || "/default-avatar.png"}
+            alt={user?.fullName}
+            sx={{ width: 40, height: 40, cursor: "pointer" }}
+
           />
         </Box>
       </Toolbar>
