@@ -1,8 +1,11 @@
 "use client";
 
 import { AppBar, Toolbar, Typography, Box, Button, Avatar } from "@mui/material";
+import { useSelector } from "react-redux";
 
-export default function Navbar({ user }) {
+export default function Navbar({  }) {
+  const user=useSelector((state)=>state.user);
+  console.log(user);
   return (
     <AppBar position="fixed" sx={{ bgcolor: "#b70924" }}>
       <Toolbar sx={{ minHeight: "50px", display: "flex", justifyContent: "space-between" }}>
@@ -16,7 +19,7 @@ export default function Navbar({ user }) {
           {/* <Button color="inherit">Sign In</Button>
           <Button color="inherit">Sign Up</Button> */}
              <Typography  sx={{ fontWeight: "bold", fontSize:"15px" }}>
-         Nabyendu Das
+         {user.fullName}
         </Typography>
           <Avatar 
             src={user?.avatar || "/default-avatar.png"} 

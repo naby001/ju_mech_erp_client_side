@@ -11,6 +11,8 @@ import AcademicInfoForm from "../forms/academic-info-form"; // form component fo
 import ProgressionForm from "../forms/progression-form"; // form component for handling the placement details of the student
 import CoCurricularForm from "../forms/co-curricular-form"; // form component for handling the co-curricular and extra-curricular activities
 import MiscellaneousForms from "../forms/miscellaneous-forms"; // form component for handling the miscellenous details of the student
+import { useDispatch, useSelector } from "react-redux";
+import { setLogin } from "../state";
 
 
 
@@ -85,6 +87,45 @@ export default function MultiStepForm({onChange}) {
 
   //state to control placement details at the university
   const [placemenformtData, setPlacementFormData] = useState({
+    placement: {
+      isPlaced: false,
+      offers: [
+        {
+          company: "",
+          position: "",
+          employmentType: "",
+          recruitmentType: "",
+          year: "",
+          package: "",
+          offerLetter: null,
+        },
+      ],
+      choiceDetails: "",
+    },
+    exams: [
+      {
+        name: "",
+        year: "",
+        score: "",
+        hasTraining: false,
+        trainingType: "",
+        trainingMode: "",
+        resultCard: null,
+      },
+    ],
+    higherStudy: {
+      programme: "",
+      duration: "",
+      institute: "",
+      country: "",
+    },
+    startup: {
+      hasStartup: false,
+      startupDetails: "",
+      interestedInStartup: false,
+      universitySupport: "",
+      externalSupport: "",
+    },
   })
 
   //state to control extra-curricular and co-curricular form details
@@ -144,10 +185,12 @@ export default function MultiStepForm({onChange}) {
       }
   })
 
-  //state to control misc form details
   const [miscformData, setMiscFormData] = useState({
-
-  })
+    lor: null,
+    keyLearnings: "",
+    sop: "",
+    vision: "",
+  });
 
   const handlepersonalChange = (event) => {
     const { name, value, checked, type } = event.target;
@@ -171,13 +214,13 @@ export default function MultiStepForm({onChange}) {
     const newValue = type === 'checkbox' ? checked : value;
     
     setEnrollFormData({
-      ...formData,
+      ...enrollformData,
       [name]: newValue
     });
     
     onChange({
       enrollmentDetails: {
-        ...formData,
+        ...enrollformData,
         [name]: newValue
       }
     });
@@ -187,7 +230,7 @@ export default function MultiStepForm({onChange}) {
     const { name, value } = event.target;
     
     setAcadBackFormData({
-      ...formData,
+      ...acadbackformData,
       [name]: value
     });
     
@@ -229,16 +272,116 @@ export default function MultiStepForm({onChange}) {
       }
     })
   }
+  const handleplacementChange = (event) => {
+    const { name, value, dataset } = event.target;
+    console.log(event)
+    const section = dataset.section;
+    const index = dataset.index !== undefined ? Number(dataset.index) : null;
+  
+    setPlacementFormData((prev) => {
+      const updatedSection = { ...prev[section] };
+  
+      if (index !== null) {
+        updatedSection[name][index] = { ...updatedSection[name][index], [event.target.dataset.field]: value };
+      } else {
+        updatedSection[name] = value;
+      }
+  
+      return { ...prev, [section]: updatedSection };
+    });
+  
+   // onChange({ progression: formData });
+  };
+  
+  const addPlacementItem = (event) => {
+    const { name, dataset } = event.target;
+    const section = dataset.section;
+    const newItem = JSON.parse(dataset.template); // Pass a template object via dataset
+  
+    setPlacementFormData((prev) => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [name]: [...prev[section][name], newItem],
+      },
+    }));
+  
+   // onChange({ progression: formData });
+  };
+  
+  const removePlacementItem = (event) => {
+    const { name, dataset } = event.target;
+    const section = dataset.section;
+    const index = Number(dataset.index);
+  
+    setPlacementFormData((prev) => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [name]: prev[section][name].filter((_, i) => i !== index),
+      },
+    }));
+  
+    //onChange({ progression: formData });
+  };
+
+  const handleMiscChange = (field, value) => {
+    setMiscFormData({ ...miscformData, [field]: value });
+  };
+ const dispatch=useDispatch();
+ const token=useSelector((state)=>state.token);
+  const submitForm = async () => {
+    // Structure the data as expected by the backend
+    const requestBody = {
+      personalInfo: personalformData,
+      enrollmentDetails: enrollformData,
+      academicBackground: acadbackformData,
+      academicInfo: acedamicformData,
+      careerProgression: placemenformtData,
+      curricularInfo: curricularformData,
+      miscellaneous: miscformData,
+    };
+  
+    console.log("Submitting Data:", requestBody); // Debugging log
+  
+    try {
+      const response = await fetch("http://localhost:5000/users/updatedetails", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+  
+      const data = await response.json();
+      console.log(data);
+      dispatch(setLogin({
+        token,
+        user:data.user
+      }))
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to update details");
+      }
+  
+      console.log("Success:", data);
+      alert("Details updated successfully!");
+  
+    } catch (error) {
+      console.error("Error:", error);
+      alert(error.message || "Something went wrong. Please try again.");
+    }
+  };
+  
 
   // array of dicts containing section titles and component tags
   const sections = [
     { title: "General Info", component: <PersonalInfoForm formData={personalformData} handleChange={handlepersonalChange}/> },
     { title: "Enrollment Details", component: <EnrollmentDetailsForm formData={enrollformData} handleChange={handleenrollChange}/> },
     { title: "Academic Background", component: <AcademicBackgroundForm formData={acadbackformData} handleChange={handleacadbackChange}/> },
-    { title: "Academic Info", component: <AcademicInfoForm formData={acedamicformData} handleChangeCur={handleacedamicChange} /> },
-    { title: "Placement", component: <ProgressionForm /> },
-    { title: "Co-Curricular and Extra-Curricular Activities", component: <CoCurricularForm  formData={curricularformData} handleChange={handleCurricularChange} /> },
-    { title: "Miscellaneous", component: <MiscellaneousForms /> },
+    { title: "Academic Info", component: <AcademicInfoForm formData={acedamicformData} handleChange={handleacedamicChange} /> },
+     { title: "Placement", component: <ProgressionForm formData={placemenformtData} handlechange={handleplacementChange} addItem={addPlacementItem} removeItem={removePlacementItem}/> },
+    { title: "Co-Curricular and Extra-Curricular Activities", component: <CoCurricularForm  formData={curricularformData} setFormData={setCurricularFormData} handleChangeCur={handleCurricularChange} /> },
+    { title: "Miscellaneous", component: <MiscellaneousForms formData={miscformData} handleChange={handleMiscChange} onSubmit={submitForm}/> },
   ];
 
   return (

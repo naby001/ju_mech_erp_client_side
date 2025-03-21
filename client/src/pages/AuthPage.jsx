@@ -11,7 +11,8 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import GoogleIcon from "@mui/icons-material/Google";
-
+import { useDispatch } from "react-redux";
+import { setLogin } from "../state";
 // UI Constants
 const PRIMARY_COLOR = "#b70924";
 const WHITE = "#ffffff";
@@ -27,9 +28,42 @@ const AuthPage = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const dispatch=useDispatch();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(isLogin ? "Logging in..." : "Signing up...", formData);
+  
+    const url = isLogin ? "http://localhost:5000/users/login" : "http://localhost:5000/users/signup";
+    
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      const data = await response.json();
+      dispatch(setLogin({
+        token:data.token,
+        user:data.user
+      }))
+      if (!response.ok) {
+        throw new Error(data.message || "Something went wrong!");
+      }
+  
+      console.log("Success:", data);
+      alert(data.message || (isLogin ? "Login Successful!" : "Signup Successful!"));
+      
+      // Reset form after successful submission
+      setFormData({ fullName: "", email: "", password: "" });
+  
+      // Handle navigation or state update after success (e.g., redirect user)
+    } catch (error) {
+      console.error("Error:", error);
+      alert(error.message || "Request failed. Please try again.");
+    }
   };
 
   const handleGoogleSignIn = () => {
