@@ -61,7 +61,7 @@ export default function Navbar({  }) {
         {/* Right: Sign In, Sign Up, and User Avatar */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Typography sx={{ fontWeight: "bold", fontSize: "15px" }}>
-            {user.fullName}
+            {user?.fullName}
           </Typography>
           <Avatar
             src={user?.avatar || "/default-avatar.png"}

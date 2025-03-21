@@ -37,7 +37,8 @@ function App() {
       <Router>
         <Routes>
 
-          <Route path="/" element={!user?<AuthPage />:<StudentPortfolio/>} />
+          <Route path="/" element={!user?<HomePage />:<StudentPortfolio/>} />
+          <Route path="/auth" element={!user?<AuthPage />:<StudentPortfolio/>} />
           <Route path="/updateform" element={user?<StudentPortfolio />:<AuthPage/>} />
 
         </Routes>
