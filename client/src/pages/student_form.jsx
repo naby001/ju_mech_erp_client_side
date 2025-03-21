@@ -330,9 +330,11 @@ export default function MultiStepForm({onChange}) {
   };
  const dispatch=useDispatch();
  const token=useSelector((state)=>state.token);
+ const user=useSelector((state)=>state.user);
   const submitForm = async () => {
     // Structure the data as expected by the backend
     const requestBody = {
+      email:user.email,
       personalInfo: personalformData,
       enrollmentDetails: enrollformData,
       academicBackground: acadbackformData,
