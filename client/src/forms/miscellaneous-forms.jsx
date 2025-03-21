@@ -2,22 +2,25 @@ import React, { useState } from "react";
 import { Box, Button, Container, TextField, Typography, useMediaQuery } from "@mui/material";
 import { motion } from "framer-motion";
 
-export default function MiscellaneousForm() {
+export default function MiscellaneousForm({formData, handleChange, onSubmit}) {
   const isMobile = useMediaQuery("(max-width:900px)");
 
-  const [formData, setFormData] = useState({
-    lor: null,
-    keyLearnings: "",
-    sop: "",
-    vision: "",
-  });
+
 
   const handleFileUpload = (event) => {
     setFormData({ ...formData, lor: event.target.files[0] });
   };
 
-  const handleChange = (field, value) => {
-    setFormData({ ...formData, [field]: value });
+  
+
+  const exportDataAsArray = () => {
+    const dataArray = [
+      formData.lor,
+      formData.keyLearnings,
+      formData.sop,
+      formData.vision,
+    ];
+    console.log(dataArray); // Replace with desired export logic
   };
 
   return (
@@ -68,7 +71,7 @@ export default function MiscellaneousForm() {
       <TextField
         label="Key Learnings / Highlights of the Programme"
         variant="outlined"
-        multiline
+        //multiline
         rows={isMobile ? 4 : 3}
         fullWidth
         sx={{ mb: 3, borderRadius: "10px", background: "rgba(255, 255, 255, 0.1)" }}
@@ -80,7 +83,7 @@ export default function MiscellaneousForm() {
       <TextField
         label="Statement of Purpose (SOP)"
         variant="outlined"
-        multiline
+        //multiline
         rows={isMobile ? 4 : 3}
         fullWidth
         sx={{ mb: 3, borderRadius: "10px", background: "rgba(255, 255, 255, 0.1)" }}
@@ -92,7 +95,7 @@ export default function MiscellaneousForm() {
       <TextField
         label="Vision & Long-Term Aspirations"
         variant="outlined"
-        multiline
+       // multiline
         rows={isMobile ? 4 : 3}
         fullWidth
         sx={{ mb: 3, borderRadius: "10px", background: "rgba(255, 255, 255, 0.1)" }}
@@ -110,9 +113,12 @@ export default function MiscellaneousForm() {
           "&:hover": { background: "#90071d" },
           width: isMobile ? "100%" : "auto",
         }}
+        onClick={onSubmit}
       >
         Submit
       </Button>
+
+     
     </Container>
   );
 }

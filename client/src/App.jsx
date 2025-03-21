@@ -4,7 +4,9 @@ import HomePage from "./pages/HomePage";
 import StudentPortfolio from "./pages/student_form";
 import AuthPage from "./pages/AuthPage";
 import "./App.css";
-
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setLogout } from "./state";
 // ✅ Create a Custom Theme
 const theme = createTheme({
   components: {
@@ -27,13 +29,17 @@ const theme = createTheme({
 });
 
 function App() {
+  const user=useSelector((state)=>state.user);
+  const dispatch=useDispatch();
+  //dispatch(setLogout());
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/auth" element={<AuthPage />} />
-          <Route path="/updateform" element={<StudentPortfolio />} />
+
+          <Route path="/" element={!user?<AuthPage />:<StudentPortfolio/>} />
+          <Route path="/updateform" element={user?<StudentPortfolio />:<AuthPage/>} />
+
         </Routes>
       </Router>
     </ThemeProvider>
